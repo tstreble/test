@@ -195,20 +195,20 @@ process.noscraping = cms.EDFilter(
 process.load('CommonTools.RecoAlgos.HBHENoiseFilter_cfi')
 
 ## The CSC beam halo tight filter ____________________________________________||
-#process.load('RecoMET.METAnalyzers.CSCHaloFilter_cfi')
+process.load('RecoMET.METAnalyzers.CSCHaloFilter_cfi')
 
 ## The HCAL laser filter _____________________________________________________||
-## process.load("RecoMET.METFilters.hcalLaserEventFilter_cfi")
-## process.hcalLaserEventFilter.vetoByRunEventNumber=cms.untracked.bool(False)
-## process.hcalLaserEventFilter.vetoByHBHEOccupancy=cms.untracked.bool(True)
+process.load("RecoMET.METFilters.hcalLaserEventFilter_cfi")
+process.hcalLaserEventFilter.vetoByRunEventNumber=cms.untracked.bool(False)
+process.hcalLaserEventFilter.vetoByHBHEOccupancy=cms.untracked.bool(True)
 
 ## The ECAL dead cell trigger primitive filter _______________________________||
-#process.load('RecoMET.METFilters.EcalDeadCellTriggerPrimitiveFilter_cfi')
+process.load('RecoMET.METFilters.EcalDeadCellTriggerPrimitiveFilter_cfi')
 ## For AOD and RECO recommendation to use recovered rechits
-#process.EcalDeadCellTriggerPrimitiveFilter.tpDigiCollection = cms.InputTag("ecalTPSkimNA")
+process.EcalDeadCellTriggerPrimitiveFilter.tpDigiCollection = cms.InputTag("ecalTPSkimNA")
 
 ## The EE bad SuperCrystal filter ____________________________________________||
-#process.load('RecoMET.METFilters.eeBadScFilter_cfi')
+process.load('RecoMET.METFilters.eeBadScFilter_cfi')
 
 ## The Good vertices collection needed by the tracking failure filter ________||
 process.goodVertices = cms.EDFilter(
@@ -218,43 +218,43 @@ process.goodVertices = cms.EDFilter(
   cut = cms.string("!isFake && ndof >= 4 && abs(z) <= 24 && position.rho < 2")
 )
 
-#if not options.runOnFastSim:
+if not options.runOnFastSim:
     ## The tracking failure filter _______________________________________________||
-    #process.load('RecoMET.METFilters.trackingFailureFilter_cfi')
-    #process.load('RecoMET.METFilters.trackingPOGFilters_cfi')
+    process.load('RecoMET.METFilters.trackingFailureFilter_cfi')
+    process.load('RecoMET.METFilters.trackingPOGFilters_cfi')
 
     # Tracking coherent noise filter , see https://twiki.cern.ch/twiki/bin/viewauth/CMS/TrackingPOGFilters
-    ## process.manystripclus53X = cms.EDFilter('ByClusterSummaryMultiplicityPairEventFilter',
-##                                             multiplicityConfig = cms.PSet(
-##         firstMultiplicityConfig = cms.PSet(
-##         clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
-##                 subDetEnum = cms.int32(5),
-##                 subDetVariable = cms.string("pHits")
-##                 ),
-##             secondMultiplicityConfig = cms.PSet(
-##                 clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
-##                 subDetEnum = cms.int32(0),
-##                 subDetVariable = cms.string("cHits")
-##                 ),
-##             ),
-##         cut = cms.string("( mult2 > 20000+7*mult1)")
-##      )
+    process.manystripclus53X = cms.EDFilter('ByClusterSummaryMultiplicityPairEventFilter',
+                                            multiplicityConfig = cms.PSet(
+        firstMultiplicityConfig = cms.PSet(
+        clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
+                subDetEnum = cms.int32(5),
+                subDetVariable = cms.string("pHits")
+                ),
+            secondMultiplicityConfig = cms.PSet(
+                clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
+                subDetEnum = cms.int32(0),
+                subDetVariable = cms.string("cHits")
+                ),
+            ),
+        cut = cms.string("( mult2 > 20000+7*mult1)")
+     )
 
-##     process.toomanystripclus53X = cms.EDFilter('ByClusterSummaryMultiplicityPairEventFilter',
-##         multiplicityConfig = cms.PSet(
-##             firstMultiplicityConfig = cms.PSet(
-##                 clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
-##                 subDetEnum = cms.int32(5),
-##                 subDetVariable = cms.string("pHits")
-##                 ),
-##             secondMultiplicityConfig = cms.PSet(
-##                 clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
-##                 subDetEnum = cms.int32(0),
-##                 subDetVariable = cms.string("cHits")
-##                 ),
-##             ),
-##         cut = cms.string("(mult2>50000) && ( mult2 > 20000+7*mult1)")
-##         )
+    process.toomanystripclus53X = cms.EDFilter('ByClusterSummaryMultiplicityPairEventFilter',
+        multiplicityConfig = cms.PSet(
+            firstMultiplicityConfig = cms.PSet(
+                clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
+                subDetEnum = cms.int32(5),
+                subDetVariable = cms.string("pHits")
+                ),
+            secondMultiplicityConfig = cms.PSet(
+                clusterSummaryCollection = cms.InputTag("clusterSummaryProducer"),
+                subDetEnum = cms.int32(0),
+                subDetVariable = cms.string("cHits")
+                ),
+            ),
+        cut = cms.string("(mult2>50000) && ( mult2 > 20000+7*mult1)")
+        )
         
     # Tracking TOBTEC fakes filter ##
     #process.load('RecoMET.METFilters.tobtecfakesfilter_cfi')
@@ -299,6 +299,14 @@ process.goodOfflinePrimaryVertices = cms.EDFilter(
                                      ),
     src=cms.InputTag(pvSrc)
     )
+
+
+
+
+
+
+
+
 
 
 ###############################
@@ -398,13 +406,13 @@ process.pfElectronsPFlow.isolationValueMapsCharged  = cms.VInputTag(cms.InputTag
 process.pfElectronsPFlow.deltaBetaIsolationValueMap = cms.InputTag("elPFIsoValuePU03PFIdPFlow" )
 process.pfElectronsPFlow.isolationValueMapsNeutral  = cms.VInputTag(cms.InputTag( "elPFIsoValueNeutral03PFIdPFlow"), cms.InputTag("elPFIsoValueGamma03PFIdPFlow"))
 
-## process.patElectronsPFlow.isolationValues = cms.PSet(
-##         pfChargedHadrons = cms.InputTag("elPFIsoValueCharged03PFIdPFlow"),
-##         pfChargedAll = cms.InputTag("elPFIsoValueChargedAll03PFIdPFlow"),
-##         pfPUChargedHadrons = cms.InputTag("elPFIsoValuePU03PFIdPFlow"),
-##         pfNeutralHadrons = cms.InputTag("elPFIsoValueNeutral03PFIdPFlow"),
-##         pfPhotons = cms.InputTag("elPFIsoValueGamma03PFIdPFlow")
-##         )
+process.patElectronsPFlow.isolationValues = cms.PSet(
+        pfChargedHadrons = cms.InputTag("elPFIsoValueCharged03PFIdPFlow"),
+        pfChargedAll = cms.InputTag("elPFIsoValueChargedAll03PFIdPFlow"),
+        pfPUChargedHadrons = cms.InputTag("elPFIsoValuePU03PFIdPFlow"),
+        pfNeutralHadrons = cms.InputTag("elPFIsoValueNeutral03PFIdPFlow"),
+        pfPhotons = cms.InputTag("elPFIsoValueGamma03PFIdPFlow")
+        )
 
 postfixLoose = "PFlowLoose"
 usePF2PAT(process,runPF2PAT=True, jetAlgo='AK5', runOnMC=not options.useData, postfix=postfixLoose,
@@ -422,13 +430,13 @@ process.pfElectronsPFlowLoose.isolationValueMapsCharged  = cms.VInputTag(cms.Inp
 process.pfElectronsPFlowLoose.deltaBetaIsolationValueMap = cms.InputTag("elPFIsoValuePU03PFIdPFlowLoose" )
 process.pfElectronsPFlowLoose.isolationValueMapsNeutral  = cms.VInputTag(cms.InputTag( "elPFIsoValueNeutral03PFIdPFlowLoose"), cms.InputTag("elPFIsoValueGamma03PFIdPFlowLoose"))
 
-## process.patElectronsPFlowLoose.isolationValues = cms.PSet(
-##     pfChargedHadrons = cms.InputTag("elPFIsoValueCharged03PFIdPFlowLoose"),
-##     pfChargedAll = cms.InputTag("elPFIsoValueChargedAll03PFIdPFlowLoose"),
-##     pfPUChargedHadrons = cms.InputTag("elPFIsoValuePU03PFIdPFlowLoose"),
-##     pfNeutralHadrons = cms.InputTag("elPFIsoValueNeutral03PFIdPFlowLoose"),
-##     pfPhotons = cms.InputTag("elPFIsoValueGamma03PFIdPFlowLoose")
-##     )
+process.patElectronsPFlowLoose.isolationValues = cms.PSet(
+    pfChargedHadrons = cms.InputTag("elPFIsoValueCharged03PFIdPFlowLoose"),
+    pfChargedAll = cms.InputTag("elPFIsoValueChargedAll03PFIdPFlowLoose"),
+    pfPUChargedHadrons = cms.InputTag("elPFIsoValuePU03PFIdPFlowLoose"),
+    pfNeutralHadrons = cms.InputTag("elPFIsoValueNeutral03PFIdPFlowLoose"),
+    pfPhotons = cms.InputTag("elPFIsoValueGamma03PFIdPFlowLoose")
+    )
 
 # enable/disable tau cleaning
 if not options.doJetTauCrossCleaning:
@@ -445,7 +453,7 @@ else:
 process.pfIsolatedMuonsPFlowLoose.isolationCut = cms.double(999.0) 
 process.pfIsolatedElectronsPFlowLoose.isolationCut = cms.double(999.0)
 process.patMuonsPFlowLoose.pfMuonSource = "pfMuonsPFlowLoose"
-#process.patElectronsPFlowLoose.pfElectronSource = "pfElectronsPFlowLoose"
+process.patElectronsPFlowLoose.pfElectronSource = "pfElectronsPFlowLoose"
 
 # Keep additional PF information for taus
 # embed in AOD externally stored leading PFChargedHadron candidate
@@ -498,6 +506,9 @@ process.patConversionsPFlowLoose = cms.EDProducer("PATConversionProducer",
                                                   electronSource = cms.InputTag("selectedPatElectronsPFlowLoose")  
                                                   )
 process.patPF2PATSequencePFlowLoose += process.patConversionsPFlowLoose
+
+
+
 
 
 ###############################
@@ -715,6 +726,8 @@ process.caMassDropFilteredGenJetsNoNu = process.caFilteredGenJetsNoNu.clone(
 #### CATopTag Setup ###########
 ###############################
 
+
+
 # CATopJet PF Jets
 # with adjacency 
 process.caTopTagPFlow = cms.EDProducer(
@@ -823,6 +836,7 @@ for ipostfix in [postfix] :
 
 
 
+
 # Use the good primary vertices everywhere. 
 for imod in [process.patMuonsPFlow,
              process.patMuonsPFlowLoose,
@@ -846,6 +860,7 @@ addJetCollection(process,
                  genJetCollection = cms.InputTag("ca8GenJetsNoNu"),
                  doJetID = False
                  )
+
 
 
 addJetCollection(process, 
@@ -928,6 +943,9 @@ addJetCollection(process,
                  doJetID = False
                  )
 
+
+
+# XXX
 addJetCollection(process, 
                  cms.InputTag('ca15PFJetsPFlow'),
                  'CA15', 'PF',
@@ -941,6 +959,7 @@ addJetCollection(process,
                  doJetID = False
                  )
 
+
 addJetCollection(process, 
                  cms.InputTag('caFilteredPFlow'),
                  'CA15Filtered', 'PF',
@@ -953,7 +972,6 @@ addJetCollection(process,
                  genJetCollection = None,
                  doJetID = False
                  )
-
 
 addJetCollection(process, 
                  cms.InputTag('caMassDropFilteredPFlow'),
@@ -1017,6 +1035,7 @@ if options.useExplicitJTA :
 
 ###
 ##############################################################
+
 
 
 
@@ -1183,20 +1202,21 @@ switchJetCollection(process,cms.InputTag('ak5PFJets'),
 		    doJetID      = False
 		    )
 
-for icorr in [process.patJetCorrFactors,
-	      process.patJetCorrFactorsCATopTagPF,
-	      process.patJetCorrFactorsCAHEPTopTagPF,
-              process.patJetCorrFactorsCA8PrunedPF,
-              process.patJetCorrFactorsCA15PF,
-              process.patJetCorrFactorsCA15FilteredPF,
-              process.patJetCorrFactorsCA15MassDropFilteredPF,
-	      process.patJetCorrFactorsCATopTagSubjetsPF,
-	      process.patJetCorrFactorsCAHEPTopTagSubjetsPF,
-              process.patJetCorrFactorsCA8PrunedSubjetsPF,
-              process.patJetCorrFactorsCA15MassDropFilteredSubjetsPF,
-              process.patJetCorrFactorsCA15FilteredSubjetsPF,
-              process.patJetCorrFactorsCA8PF ] :
-    icorr.rho = cms.InputTag("kt6PFJets", "rho")
+## for icorr in [process.patJetCorrFactors,
+## 	      process.patJetCorrFactorsCATopTagPF,
+## 	      process.patJetCorrFactorsCAHEPTopTagPF,
+##               process.patJetCorrFactorsCA8PrunedPF,
+##               process.patJetCorrFactorsCA15PF,
+##               process.patJetCorrFactorsCA15FilteredPF,
+##               process.patJetCorrFactorsCA15MassDropFilteredPF,
+## 	      process.patJetCorrFactorsCATopTagSubjetsPF,
+## 	      process.patJetCorrFactorsCAHEPTopTagSubjetsPF,
+##               process.patJetCorrFactorsCA8PrunedSubjetsPF,
+##               process.patJetCorrFactorsCA15MassDropFilteredSubjetsPF,
+##               process.patJetCorrFactorsCA15FilteredSubjetsPF,
+##               process.patJetCorrFactorsCA8PF ] :
+##     icorr.rho = cms.InputTag("kt6PFJets", "rho")
+##     #icorr.rho = cms.InputTag("fixedGridRhoFastjetAll", "rho")
 
 
 if options.useExtraJetColls: 
@@ -1313,7 +1333,7 @@ for module in [process.patJetCorrFactors,
                process.patJetCorrFactorsCATopTagPF,
                process.patJetCorrFactorsCAHEPTopTagPF,
                process.patJetCorrFactorsCA8PrunedPF,
-               process.patJetCorrFactorsCA15PF,
+               #process.patJetCorrFactorsCA15PF,
                process.patJetCorrFactorsCA15FilteredPF,
                process.patJetCorrFactorsCA15MassDropFilteredPF,
                process.patJetCorrFactorsCATopTagSubjetsPF,
@@ -1340,6 +1360,8 @@ if options.useExtraJetColls:
 		       process.patJetCorrFactorsAK8FilteredPF
 		       ]:
 	    module.primaryVertices = "goodOfflinePrimaryVertices"
+
+
 
 
 ###############################
@@ -1418,9 +1440,9 @@ if options.useExtraJetColls:
 process.selectedPatElectrons.cut = cms.string('pt > 10.0 & abs(eta) < 2.5')
 process.patElectrons.embedTrack = cms.bool(True)
 process.selectedPatElectronsPFlow.cut = cms.string('pt > 10.0 & abs(eta) < 2.5')
-## process.patElectronsPFlow.embedTrack = cms.bool(True)
+process.patElectronsPFlow.embedTrack = cms.bool(True)
 process.selectedPatElectronsPFlowLoose.cut = cms.string('pt > 10.0 & abs(eta) < 2.5')
-#process.patElectronsPFlowLoose.embedTrack = cms.bool(True)
+process.patElectronsPFlowLoose.embedTrack = cms.bool(True)
 # muons
 process.selectedPatMuons.cut = cms.string('pt > 10.0 & abs(eta) < 2.5')
 process.patMuons.embedTrack = cms.bool(True)
@@ -1753,6 +1775,9 @@ process.genParticlesForJets = cms.EDProducer("InputGenJetsParticleSelector",
 
 process.dumpBJets = cms.EDAnalyzer('AnalyzerDumpBJets')
 
+
+
+
 # HEPTopTagger
 
 process.Top0 = cms.EDAnalyzer('AnalyzerHTT',
@@ -1766,8 +1791,8 @@ process.Top0 = cms.EDAnalyzer('AnalyzerHTT',
                                 min_subjet_pt       = cms.untracked.double(0.),
                                 rel_mass_width      = cms.untracked.double(0.3),
                                 storeCA             = cms.untracked.bool(True),
-                                alt_version         = cms.untracked.bool(False),
-
+                                do_fatjet_calibration=cms.untracked.bool(False),
+                                
                               )
 
 
@@ -1781,18 +1806,18 @@ else:
  process.filtersSeq = cms.Sequence(
    process.primaryVertexFilter *
    process.noscraping *
-   process.HBHENoiseFilter #*
-   #process.CSCTightHaloFilter *
-   #process.hcalLaserEventFilter *
-   #process.EcalDeadCellTriggerPrimitiveFilter *
-   #process.goodVertices * process.trackingFailureFilter *
+   process.HBHENoiseFilter *
+   process.CSCTightHaloFilter *
+   process.hcalLaserEventFilter *
+   process.EcalDeadCellTriggerPrimitiveFilter *
+   process.goodVertices * process.trackingFailureFilter *
    #process.tobtecfakesfilter *
-   #~process.manystripclus53X *
-   #~process.toomanystripclus53X *
-   #~process.logErrorTooManyClusters *
-   #~process.logErrorTooManyTripletsPairs *
-   #~process.logErrorTooManySeeds *
-   #process.eeBadScFilter
+   ~process.manystripclus53X *
+   ~process.toomanystripclus53X *
+   ~process.logErrorTooManyClusters *
+   ~process.logErrorTooManyTripletsPairs *
+   ~process.logErrorTooManySeeds *
+   process.eeBadScFilter
 )
 
 
@@ -2014,6 +2039,8 @@ else :
 		process.patseq
 	)
 
+
+
 ## process.MyNtuple = cms.EDAnalyzer('NtupleWriter',
 ##                                   fileName = cms.string("Ntuple.root"), 
 ##                                   doElectrons = cms.bool(True),
@@ -2083,7 +2110,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(50)
 
 
 # process all the events
-process.maxEvents = cms.untracked.PSet( input =cms.untracked.int32(100))
+process.maxEvents = cms.untracked.PSet( input =cms.untracked.int32(50))
 process.options.wantSummary = True
 process.out.dropMetaData = cms.untracked.string("DROPPED")
 
