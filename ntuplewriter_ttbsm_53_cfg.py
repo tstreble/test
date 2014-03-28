@@ -916,7 +916,7 @@ addJetCollection(process,
                  doJetID = False
                  )
 
-
+# XXX
 addJetCollection(process, 
                  cms.InputTag('caHEPTopTagPFlow'),
                  'CAHEPTopTag', 'PF',
@@ -945,7 +945,6 @@ addJetCollection(process,
 
 
 
-# XXX
 addJetCollection(process, 
                  cms.InputTag('ca15PFJetsPFlow'),
                  'CA15', 'PF',
@@ -1333,7 +1332,7 @@ for module in [process.patJetCorrFactors,
                process.patJetCorrFactorsCATopTagPF,
                process.patJetCorrFactorsCAHEPTopTagPF,
                process.patJetCorrFactorsCA8PrunedPF,
-               #process.patJetCorrFactorsCA15PF,
+               process.patJetCorrFactorsCA15PF,
                process.patJetCorrFactorsCA15FilteredPF,
                process.patJetCorrFactorsCA15MassDropFilteredPF,
                process.patJetCorrFactorsCATopTagSubjetsPF,
@@ -1791,8 +1790,9 @@ process.Top0 = cms.EDAnalyzer('AnalyzerHTT',
                                 min_subjet_pt       = cms.untracked.double(0.),
                                 rel_mass_width      = cms.untracked.double(0.3),
                                 storeCA             = cms.untracked.bool(True),
-                                do_fatjet_calibration=cms.untracked.bool(False),
-                                
+                                do_fatjet_calibration=cms.untracked.bool(True),
+                                min_fatjet_pt       = cms.untracked.double(100.),
+                                alt_version         = cms.untracked.bool(True),
                               )
 
 
